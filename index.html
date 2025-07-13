@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>KipopBug</title>
+  <title>Nandemo</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
   <style>
     :root {
@@ -197,7 +197,7 @@
   <div id="result" style="margin-top:10px;"></div>
   <div class="contact" style="margin-top: 20px; color: white;">
     <p>Contact Developer:</p>
-    <a href="https://t.me/kipoplecy" target="_blank" style="color: #ff2a2a;">
+    <a href="https://t.me/rugibanget" target="_blank" style="color: #ff2a2a;">
       <i class="fab fa-telegram"></i> @kipop
     </a>
   </div>
@@ -339,12 +339,7 @@
   async function checkServerStatus() {
     const statusEl = document.querySelector(".status");
     try {
-      const res = await fetch("kipopwebbug.whaxzero.my.idasync function handleBugSend(chatId, selectedBug) {
-  const res = await fetch(`https://cella-why.mydigital-store.me/permen?chatId=${encodeURIComponent(chatId)}&type=${selectedBug}`);
-  if (!res.ok) throw new Error("Gagal menghubungi server");
-  return await res.json();
-}
-/status");
+      const res = await fetch("https://kipopwebbug.whaxzero.my.id/status");
       const data = await res.json();
       if (data.connected) {
         statusEl.innerHTML = `<i class="fas fa-circle" style="color:limegreen;"></i> Connected`;
@@ -359,8 +354,3 @@
 <script src="api.js"></script>
 </body>
 </html>
-async function handleBugSend(chatId, selectedBug) {
-  const res = await fetch(`https://cella-why.mydigital-store.me/permen?chatId=${encodeURIComponent(chatId)}&type=${selectedBug}`);
-  if (!res.ok) throw new Error("Gagal menghubungi server");
-  return await res.json();
-}
